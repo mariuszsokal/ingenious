@@ -16,10 +16,14 @@ final readonly class NotificationController
 
     public function hook(string $action, string $reference): JsonResponse
     {
-        match ($action) {
-            'delivered' => $this->notificationService->delivered(reference: $reference),
-            default => null,
-        };
+        try {
+            match ($action) {
+                'delivered' => $this->notificationService->delivered(reference: $reference),
+                default => null,
+            };
+        } catch (\Exception $exception) {
+            return new JsonResponse(data: ['message' => $exception->getMessage()], status: Response::HTTP_BAD_REQUEST);
+        }
 
         return new JsonResponse(data: null, status: Response::HTTP_OK);
     }

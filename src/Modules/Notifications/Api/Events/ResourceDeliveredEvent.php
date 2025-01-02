@@ -11,4 +11,9 @@ final readonly class ResourceDeliveredEvent
     public function __construct(
         public UuidInterface $resourceId,
     ) {}
+
+    public function getResourceId(): UuidInterface
+    {
+        return $this->resourceId;
+    }
 }
